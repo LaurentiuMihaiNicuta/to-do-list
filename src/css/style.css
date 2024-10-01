@@ -1,88 +1,66 @@
 /* CSS Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  html, body {
-    height: 100%;
-    font-size: 100%;
-    line-height: 1.5;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  img, picture, video, canvas {
-    display: block;
-    max-width: 100%;
-  }
-  
-  button, input, select, textarea {
-    font: inherit;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  ul, ol {
-    list-style: none;
-  }
-  
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-
-  :root{
-    --background-color: #271c4d;
-    --component-color : #3d315f;
-    --secondary-component-color: #544872;
-    --font-color: #ffffff;
-    --border : 20em;
-    --general-padding: 1em;
-  }
-
-body> div > div{
-  border:1px solid red;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body> div > div > div{
-  border:1px solid red;
+html, body {
+  height: 100%;
+  font-size: 100%;
+  line-height: 1.5;
 }
 
-body> div > div > div > div{
-  border:1px solid red;
+body {
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+img, picture, video, canvas {
+  display: block;
+  max-width: 100%;
+}
 
+button, input, select, textarea {
+  font: inherit;
+}
 
-.modal {
-    display: none; /* Ascuns inițial */
-    position: fixed; /* Poziționare fixă, astfel încât să fie peste conținut */
-    z-index: 1000; /* Valoare mare a z-index-ului pentru a fi deasupra altor elemente */
-    left: 0;
-    top: 0;
-    width: 100%; /* Să acopere întreaga lățime a ferestrei */
-    height: 100%; /* Să acopere întreaga înălțime */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundal semitransparent */
-  }
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+:root{
+  --background-color: #271c4d;
+  --component-color : #3d315f;
+  --secondary-component-color: #544872;
+  --font-color: #ffffff;
+  --border-radius : 20em;
+  --general-padding: 1em;
+  --button-height: 3em; /* Dimensiune consistentă pentru butoane */
+  --button-width: 10em;
+  --heading-font-size: 1.5rem; /* Dimensiune consistentă pentru titluri */
+  --item-height: 4em; /* Înălțimea fiecărui item în side-bar și main-content */
+}
 
 #app{
   background-color: var(--background-color);
   width: 100%;
   height: 100%;
   display: flex;
-  gap:20px;
+  gap: 20px;
   justify-content: center;
   align-items: center;
-
 }
 
 .main-content{
@@ -96,64 +74,106 @@ body> div > div > div > div{
 }
 
 
+.side-bar-bottom,.main-content-bottom {
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
+}
+
+
+.side-bar-top, .main-content-top{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
 .side-bar-top, .main-content-top{
   background-color: var(--component-color);
   height: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--general-padding);
+  color: var(--font-color);
 }
 
 .side-bar-bottom, .main-content-bottom{
   background-color: var(--component-color);
   height: 90%;
-
-}
-
-
-/* side-bar */
-
-.side-bar-top, .main-content-top{
+  padding: var(--general-padding);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding:var(--general-padding);
-  color: var(--font-color)
+  flex-direction: column;
+  gap: 10px;
 }
 
-
-.side-bar-top > button  {
+/* Uniformizarea dimensiunilor pentru butoane */
+button {
   background-color: var(--component-color);
-  border:1px solid white;
-  border-radius: var(--border);
-  height: 70%;
-  width: 25%;
-  color: var(--font-color)
+  border: 1px solid white;
+  border-radius: var(--border-radius);
+  color: var(--font-color);
+  height: var(--button-height);
+  width: var(--button-width);
+  cursor: pointer;
 }
 
-.side-bar-top > h1 {
+.side-bar-top > button, .main-content-top > button {
+  height: var(--button-height);
+  width: var(--button-width);
+}
+
+.side-bar-top > h1, .main-content-top > h1 {
+  font-size: var(--heading-font-size);
   color: var(--font-color);
 }
 
-.side-bar-bottom{
-  display: flex;
-  flex-direction: column;
-  gap:10px;
-  padding:var(--general-padding)
-  
-}
-
-.side-bar-bottom > div {
+/* Proiecte din sidebar și taskuri să fie identice */
+.side-bar-bottom > div, .main-content-bottom > div {
   background-color: var(--secondary-component-color);
-  height: 7em;
-  border-radius: var(--border);
+  height: var(--item-height);  /* Înălțime consistentă */
+  border-radius: var(--border-radius);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--general-padding);
 }
 
-.side-bar-bottom > div > form {
+/* Formularul din sidebar și content să fie consistent */
+.side-bar-bottom > div > form, .main-content-bottom > div > form {
   width: 100%;
   display: flex;
   justify-content: space-around;
 }
 
-/* CONTENT */
+/* Titlul proiectului și taskul din sidebar/main-content */
+.side-bar-bottom > div > p, .main-content-bottom > div > p {
+  color: var(--font-color);
+  font-size: 1rem;
+}
 
+/* Poziționarea elementelor din sidebar și content */
+.side-bar-bottom > div, .main-content-bottom > div {
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--general-padding);
+}
+
+.side-bar-bottom > div > p, .main-content-bottom > div > p {
+  font-size: 1.2rem;
+  color: var(--font-color);
+}
+
+.side-bar-bottom > div > button, .main-content-bottom > div > button {
+  background-color: var(--component-color);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--font-color);
+  cursor: pointer;
+  height: var(--button-height);
+  width: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.side-bar-bottom > div > h1 {
+  color: var(--font-color)
+}

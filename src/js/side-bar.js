@@ -8,9 +8,10 @@ import { restAppend } from "./utils";
 import { createProject } from "./project";
 import { createMainContent, renderTopContent } from "./content";
 import { arrayCounter } from "./utils";
-
+import { createTask } from "./task";
 export function createSidebar(mainContentBottom, mainContentTop) {
-    const projects = [];  
+    // Încarcă proiectele din localStorage
+    const projects = loadProjectsFromLocalStorage();  
     const counter = createCounter();
     const sideBar = createDOMElement('div', 'side-bar', '');
     const sideBarTop = createDOMElement('div', 'side-bar-top', '');
@@ -36,13 +37,16 @@ export function createSidebar(mainContentBottom, mainContentTop) {
 
             restAppend(form, nameField, favoriteField, submitButton);
             formContainer.appendChild(form);
-            sideBarBottom.insertBefore(formContainer,sideBarBottom.firstChild);
+            sideBarBottom.insertBefore(formContainer, sideBarBottom.firstChild);
 
             form.addEventListener('submit', function(event) {
                 handleProjectFormSubmit(event, nameField, favoriteField, counter, projects, sideBarBottom, mainContentBottom, mainContentTop);
             });
         }
     });
+
+    // Renderizează proiectele din localStorage
+    renderProjects(projects, sideBarBottom, mainContentBottom, mainContentTop);
 
     return sideBar;
 }
@@ -57,7 +61,9 @@ function handleProjectFormSubmit(event, nameField, favoriteField, counter, proje
         const newProject = createProject(projectName, projectFavorite);
         projects.push(newProject);
 
-        
+        // Salvăm proiectele în localStorage
+        saveProjectsToLocalStorage(projects);
+
         renderProjects(projects, sideBarBottom, mainContentBottom, mainContentTop);
     }
 
@@ -65,28 +71,58 @@ function handleProjectFormSubmit(event, nameField, favoriteField, counter, proje
 }
 
 function renderProjects(projects, sideBarBottom, mainContentBottom, mainContentTop) {
-    
     sideBarBottom.innerHTML = '';
 
-    projects.forEach((project,index) => {
+    projects.forEach((project, index) => {
         const projectContainer = createDOMElement('div', '', '');
         const projectTitle = createDOMElement('h1', '', project.getName());
-        const deleteButton = createDOMElement('button','','X')
+        const deleteButton = createDOMElement('button', '', 'X');
 
-        restAppend(projectContainer, projectTitle,deleteButton);
+        restAppend(projectContainer, projectTitle, deleteButton);
         sideBarBottom.appendChild(projectContainer);
 
-        
-        projectTitle.addEventListener('click', function() {
-            renderProjectTasks(project, mainContentBottom);
-            renderTopContent(project, mainContentTop, mainContentBottom);
+        projectTitle.addEventListener('click', function () {
+            renderProjectTasks(project, mainContentBottom, projects); // Pasăm și projects
+            renderTopContent(project, mainContentTop, mainContentBottom, projects); // Pasăm și projects
         });
 
-        deleteButton.addEventListener('click',function(){
+        deleteButton.addEventListener('click', function () {
             mainContentTop.innerHTML = '';
             mainContentBottom.innerHTML = '';
             projects.splice(index, 1);
+
+            // Salvăm proiectele actualizate în localStorage
+            saveProjectsToLocalStorage(projects);
+
             renderProjects(projects, sideBarBottom, mainContentBottom, mainContentTop);
-        })
+        });
     });
+}
+
+export function saveProjectsToLocalStorage(projects) {
+    const projectsJSON = JSON.stringify(projects.map(project => ({
+        name: project.getName(),
+        favorite: project.getFavorite(),
+        tasks: project.getTaskList().map(task => ({
+            name: task.getName(),
+            priority: task.getPriority(),
+            status: task.getStatus()
+        }))
+    })));
+    localStorage.setItem('projects', projectsJSON);
+}
+
+export function loadProjectsFromLocalStorage() {
+    const projectsJSON = localStorage.getItem('projects');
+    if (projectsJSON) {
+        const parsedProjects = JSON.parse(projectsJSON);
+        return parsedProjects.map(proj => {
+            const newProject = createProject(proj.name, proj.favorite);
+            proj.tasks.forEach(task => {
+                newProject.addTask(createTask(task.name, task.priority, task.status));  // Restaurăm taskurile în proiect
+            });
+            return newProject;
+        });
+    }
+    return [];
 }
