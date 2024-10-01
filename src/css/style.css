@@ -1,0 +1,159 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    font-size: 100%;
+    line-height: 1.5;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  img, picture, video, canvas {
+    display: block;
+    max-width: 100%;
+  }
+  
+  button, input, select, textarea {
+    font: inherit;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  ul, ol {
+    list-style: none;
+  }
+  
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  :root{
+    --background-color: #271c4d;
+    --component-color : #3d315f;
+    --secondary-component-color: #544872;
+    --font-color: #ffffff;
+    --border : 20em;
+    --general-padding: 1em;
+  }
+
+body> div > div{
+  border:1px solid red;
+}
+
+body> div > div > div{
+  border:1px solid red;
+}
+
+body> div > div > div > div{
+  border:1px solid red;
+}
+
+
+
+.modal {
+    display: none; /* Ascuns inițial */
+    position: fixed; /* Poziționare fixă, astfel încât să fie peste conținut */
+    z-index: 1000; /* Valoare mare a z-index-ului pentru a fi deasupra altor elemente */
+    left: 0;
+    top: 0;
+    width: 100%; /* Să acopere întreaga lățime a ferestrei */
+    height: 100%; /* Să acopere întreaga înălțime */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundal semitransparent */
+  }
+
+#app{
+  background-color: var(--background-color);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap:20px;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.main-content{
+  width: 70%;
+  height: 95%;
+}
+
+.side-bar{
+  width: 25%;
+  height: 95%;
+}
+
+
+.side-bar-top, .main-content-top{
+  background-color: var(--component-color);
+  height: 10%;
+}
+
+.side-bar-bottom, .main-content-bottom{
+  background-color: var(--component-color);
+  height: 90%;
+
+}
+
+
+/* side-bar */
+
+.side-bar-top, .main-content-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:var(--general-padding);
+  color: var(--font-color)
+}
+
+
+.side-bar-top > button  {
+  background-color: var(--component-color);
+  border:1px solid white;
+  border-radius: var(--border);
+  height: 70%;
+  width: 25%;
+  color: var(--font-color)
+}
+
+.side-bar-top > h1 {
+  color: var(--font-color);
+}
+
+.side-bar-bottom{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  padding:var(--general-padding)
+  
+}
+
+.side-bar-bottom > div {
+  background-color: var(--secondary-component-color);
+  height: 7em;
+  border-radius: var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-bar-bottom > div > form {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* CONTENT */
+
